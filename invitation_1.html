@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="theme-color" content="#14162b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>To my baby Monique</title>
+<meta name="description" content="An simple letter to my love.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-1:#ee8998;
+    --bg-2:#FFB6C1;
+    --envelope:#ead9bd;
+    --envelope-shade:#cdb890;
+    --paper:#faf3e4;
+    --paper-shadow:#e6dac2;
+    --seal:#7a2b2b;
+    --seal-dark:#4c1c1c;
+    --gold:#b6924f;
+    --ink:#2e2a24;
+    --muted:#b9b4d6;
+  }
+
+  *{box-sizing:border-box;}
+
+  /* html,body{height:100%;} */
+
+  body{
+    margin:0;
+    min-height:100svh;
+    min-height:100dvh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:
+      max(24px, env(safe-area-inset-top))
+      max(20px, env(safe-area-inset-right))
+      max(24px, env(safe-area-inset-bottom))
+      max(20px, env(safe-area-inset-left));
+    background:
+      radial-gradient(ellipse 90% 60% at 50% 8%, var(--bg-2), transparent 60%),
+      var(--bg-1);
+    background-attachment:fixed;
+    font-family:'Fraunces', Georgia, serif;
+    color:var(--ink);
+    -webkit-tap-highlight-color:transparent;
+    overflow-x:hidden;
+  }
+
+  .stage{
+    width:min(92vw, 420px);
+  }
+
+  .scene{
+    position:relative;
+    min-height:500px;
+    perspective:1200px;
+  }
+
+  /* ---------- Envelope ---------- */
+
+  .envelope-group{
+    position:absolute;
+    top:44%;
+    left:50%;
+    width:80%;
+    aspect-ratio:3/2;
+    transform:translate(-50%,-50%);
+    transform-style:preserve-3d;
+    transition:opacity .5s ease .35s, transform .5s ease .35s;
+  }
+
+  .trigger{
+    position:absolute;
+    inset:0;
+    border:0;
+    background:none;
+    padding:0;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+    touch-action:manipulation;
+  }
+  .trigger:active .envelope-body{ transform:scale(.98); }
+  .trigger:focus-visible{ outline:2px solid var(--gold); outline-offset:6px; border-radius:8px; }
+
+  .envelope-body{
+    position:absolute;
+    inset:0;
+    border-radius:6px;
+    background:linear-gradient(180deg, var(--envelope), var(--envelope-shade));
+    box-shadow:0 20px 45px -16px rgba(8,6,26,.6);
+    overflow:hidden;
+    transition:transform .15s ease;
+  }
+
+  .envelope-body::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(155deg, transparent 48%, rgba(0,0,0,.08) 50%, transparent 52%),
+               linear-gradient(205deg, transparent 48%, rgba(0,0,0,.08) 50%, transparent 52%);
+  }
+
+  .label{
+    position:absolute;
+    left:0; right:0;
+    top:73%;
+    text-align:center;
+    font-family:'Caveat', cursive;
+    font-weight:600;
+    font-size:clamp(1.05rem, 4vw, 1.25rem);
+    color:var(--ink);
+    opacity:.78;
+  }
+
+  .flap{
+    position:absolute;
+    inset:0;
+    clip-path:polygon(0 0, 100% 0, 50% 62%);
+    background:linear-gradient(200deg, #f2e6cd, var(--envelope) 70%);
+    transform-origin:top center;
+    transform:rotateX(0deg);
+    backface-visibility:hidden;
+    transition:transform .55s cubic-bezier(.45,0,.2,1);
+    box-shadow:inset 0 -14px 18px -16px rgba(0,0,0,.25);
+  }
+
+  .seal{
+    position:absolute;
+    left:50%;
+    top:58%;
+    width:15%;
+    aspect-ratio:1;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    background:radial-gradient(circle at 33% 28%, var(--seal) 0 42%, var(--seal-dark) 100%);
+    box-shadow:0 3px 7px rgba(0,0,0,.45), inset 0 1px 2px rgba(255,255,255,.18);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .seal svg{ width:52%; height:52%; opacity:.85; }
+
+  /* ---------- Letter ---------- */
+
+  .letter{
+    position:relative;
+    background:var(--paper);
+    border-radius:4px;
+    padding:3.6rem 1.6rem 2.2rem;
+    box-shadow:0 34px 70px -24px rgba(8,6,26,.65);
+    opacity:0;
+    transform:translateY(18px) scale(.97);
+    pointer-events:none;
+    transition:opacity .6s ease .5s, transform .6s ease .5s;
+  }
+
+  .letter::before,
+  .letter::after{
+    content:"";
+    position:absolute;
+    left:6%;
+    right:6%;
+    height:1px;
+    background:var(--paper-shadow);
+  }
+  .letter::before{ top:32%; }
+  .letter::after{ top:64%; }
+
+  .polaroid{
+    width:60%;
+    max-width:210px;
+    margin:-2.6rem auto 1.5rem;
+    background:#fff;
+    padding:9px 9px 30px;
+    border-radius:2px;
+    box-shadow:0 16px 30px -12px rgba(0,0,0,.4);
+    transform:rotate(-4deg);
+    position:relative;
+    z-index:2;
+  }
+
+  .tape{
+    position:absolute;
+    top:-11px;
+    left:50%;
+    width:64px;
+    height:22px;
+    background:rgba(210,196,150,.6);
+    box-shadow:0 2px 4px rgba(0,0,0,.15);
+    transform:translateX(-50%) rotate(-3deg);
+  }
+
+  .photo{
+    aspect-ratio:1/1;
+    border-radius:1px;
+    background:linear-gradient(135deg,#f4d7c1,#ccd4ee);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .photo svg{ width:44%; height:44%; opacity:.55; }
+
+  .caption{
+    position:absolute;
+    left:0; right:0;
+    bottom:6px;
+    text-align:center;
+    font-family:'Caveat', cursive;
+    font-size:.82rem;
+    color:#8a8474;
+  }
+
+  .letter h1{
+    margin:0 0 .9rem;
+    font-family:'Caveat', cursive;
+    font-weight:600;
+    font-size:clamp(1.9rem, 7.5vw, 2.3rem);
+  }
+
+  .letter p{
+    margin:0 0 1rem;
+    font-family:'Caveat', cursive;
+    font-weight:500;
+    font-size:clamp(1.28rem, 4.8vw, 1.5rem);
+    line-height:1.5;
+  }
+
+  .letter p.note{
+    font-style:italic;
+    opacity:.85;
+    border-left:2px solid var(--gold);
+    padding-left:.8rem;
+  }
+
+  .sign{
+    text-align:right;
+    font-family:'Caveat', cursive;
+    font-weight:700;
+    font-size:clamp(1.4rem, 5vw, 1.7rem);
+    margin-top:1.3rem;
+  }
+
+  .hint{
+    text-align:center;
+    margin-top:1.4rem;
+    font-family:'Caveat', cursive;
+    font-size:clamp(1rem, 3.6vw, 1.15rem);
+    color:var(--muted);
+    transition:opacity .3s ease;
+  }
+
+  .replay{
+    display:none;
+    margin:1.6rem auto 0;
+    background:none;
+    border:0;
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:.85rem;
+    color:var(--muted);
+    opacity:.7;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .replay:hover{ opacity:1; }
+
+  /* ---------- Open state ---------- */
+
+  .scene.is-open .flap{ transform:rotateX(-165deg); }
+
+  .scene.is-open .envelope-group{
+    opacity:0;
+    transform:translate(-50%,-62%) scale(.92);
+    pointer-events:none;
+  }
+
+  .scene.is-open .letter{
+    opacity:1;
+    transform:translateY(0) scale(1);
+    pointer-events:auto;
+  }
+
+  .scene.is-open .hint{ opacity:0; pointer-events:none; }
+
+  .scene.is-open ~ .replay{ display:block; }
+
+  @media (prefers-reduced-motion: reduce){
+    .flap, .envelope-group, .letter, .hint{ transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="stage">
+    <div class="scene" id="scene">
+
+      <div class="envelope-group">
+        <button class="trigger" id="trigger" aria-pressed="false" aria-label="Open the envelope">
+          <span class="envelope-body">
+            <span class="label"><!-- EDIT: recipient name -->To Monique (Serenity)</span>
+          </span>
+          <span class="flap">
+            <span class="seal">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#e9d8ad" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 19.5s-7.5-4.6-7.5-10A4.5 4.5 0 0 1 12 6.5 4.5 4.5 0 0 1 19.5 9.5c0 5.4-7.5 10-7.5 10z"/>
+              </svg>
+            </span>
+          </span>
+        </button>
+      </div>
+
+      <div class="letter">
+        <div class="polaroid">
+          <span class="tape"></span>
+          <span class="photo">
+           <img src="baby.png" alt="" style="width:100%; height:100%; object-fit:cover;">
+            <svg viewBox="0 0 48 48" fill="none" stroke="#3a3428" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="34" cy="12" r="4"/>
+              <path d="M4 34l12-13 9 9 6-7 13 13"/>
+            </svg>
+          </span>
+          <span class="caption"><!-- EDIT: caption -->My beautiful & adorable baby Monique</span>
+        </div>
+
+        <h1><!-- EDIT: greeting -->Dear Monique,</h1>
+
+        <p>I could've just sent a message, but some things deserve a little more effort than that.</p>
+
+        <p class="note">
+          <!-- EDIT: replace this paragraph with your real message —
+               a memory, a thank you, an invitation, or the three words
+               you've been meaning to say. -->
+          Somewhere along the way, you became someone really special to me. I’m grateful for all our conversations, jokes, calls, and little moments together.
+
+You always know how to make me smile, and I’m really happy that I met you. I hope we keep making great memories and stay close no matter what the future brings.
+
+You’ll always mean a lot to me.
+        </p>
+
+        <p>There's no other occasion, I just want to make you happy.</p>
+
+        <p class="sign"><!-- EDIT: your name -->— your hubby mjey</p>
+      </div>
+
+      <p class="hint">tap to open</p>
+    </div>
+
+    <button class="replay" id="replay">close the letter</button>
+  </div>
+
+<script>
+  const scene = document.getElementById('scene');
+  const trigger = document.getElementById('trigger');
+  const replay = document.getElementById('replay');
+
+  function openLetter(){
+    if (scene.classList.contains('is-open')) return;
+    scene.classList.add('is-open');
+    trigger.setAttribute('aria-pressed', 'true');
+  }
+
+  function closeLetter(){
+    scene.classList.remove('is-open');
+    trigger.setAttribute('aria-pressed', 'false');
+  }
+
+  trigger.addEventListener('click', openLetter);
+  replay.addEventListener('click', closeLetter);
+</script>
+</body>
+</html>
